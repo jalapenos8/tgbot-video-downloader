@@ -16,6 +16,7 @@ def whoAreYou(filePath, userID):      #check if user allowed to use bot
 
 def doAll(url):
     options = webdriver.ChromeOptions()
+    options.binary_location = "/usr/bin/chromium"
     options.add_experimental_option("prefs", {
         "directory_upgrade": True,
         "safebrowsing.enabled": True
@@ -31,7 +32,7 @@ def doAll(url):
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/122.0.0.0 Safari/537.36"
     )
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=options)
     loginSession = getCookie(driver)
     urlObject = getID(driver, url)
     driver.quit()
