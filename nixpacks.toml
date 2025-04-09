@@ -1,2 +1,2 @@
-[build]
-nixPkgs = ["...", "chromium", "chromedriver"]
+[phase.setup]
+nixPkgs = ["...", "chromium", " "]
