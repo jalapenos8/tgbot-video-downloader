@@ -1,0 +1,26 @@
+# Environment variables
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+
+# Credentials and user data
+cookies.pkl
+users.txt
+
+# IDE files
+.idea/
+.vscode/
+
+# Logs
+*.log 

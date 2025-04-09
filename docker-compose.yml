@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  tgbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: tgbot-container
+    environment:
+      - TG_TOKEN=${TG_TOKEN}
+      - PASSWORD=${PASSWORD}
+      - WEB_EMAIL=${WEB_EMAIL}
+      - WEB_PASSWORD=${WEB_PASSWORD}
+    volumes:
+      - ./cookies.pkl:/app/cookies.pkl
+      - ./users.txt:/app/users.txt
+    restart: unless-stopped 
