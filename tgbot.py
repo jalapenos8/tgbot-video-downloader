@@ -60,7 +60,7 @@ async def handlerLol(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await context.bot.send_message(update.message.chat.id, "Неправильная ссылка")
     else:
-        await context.bot.send_message(update.message.chat.id, "Вам не разрешено пользоваться ботом")
+        await context.bot.send_message(update.message.chat.id, "Напишите пароль: /login <пароль>")
 
 async def login(update: Update, context: ContextTypes.DEFAULT_TYPE):
     receivedText = update.message.text.strip()
