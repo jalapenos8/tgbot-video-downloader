@@ -3,3 +3,5 @@ python-telegram-bot
 webdriver-manager
 requests
 chromium
+beautifulsoup4
+bs4

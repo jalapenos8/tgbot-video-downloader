@@ -24,8 +24,8 @@ def logging_in(driver):
     password_field.send_keys(password)  
 
     checkbox = driver.find_element(By.ID, "agreement-checkbox") 
-    if not checkbox.is_selected():
-        checkbox.click()
+    
+    checkbox.click()
 
     password_field.send_keys(Keys.RETURN)  # Simulate pressing Enter to submit
     print('Login script finished\n')
@@ -39,7 +39,6 @@ def getCookie(driver):
                 driver.add_cookie(cookie)
             print("Cookies loaded!")
             driver.refresh()
-            time.sleep(1)
     except:
         print("Who got my cookies?")
 
@@ -57,9 +56,10 @@ def getCookie(driver):
 
 def getID(driver, url):
     driver.get(url)
-    if "Page Not Found" in driver.title:
+    try:
+        script_tag = driver.find_element("xpath", '//script[@type="application/ld+json"]')
+        json_content = script_tag.get_attribute("innerHTML")
+        id = json.loads(json_content)[0]["identifier"]
+        return {'pageFound': True, 'id': id}
+    except:
         return {'pageFound': False, 'id': 0}
-    script_tag = driver.find_element("xpath", '//script[@type="application/ld+json"]')
-    json_content = script_tag.get_attribute("innerHTML")
-    id = json.loads(json_content)[0]["identifier"]
-    return {'pageFound': True, 'id': id}

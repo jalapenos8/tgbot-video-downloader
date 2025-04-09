@@ -7,6 +7,26 @@ from selfunc import getCookie, getID
 from request import getLinks
 import os
 
+options = webdriver.ChromeOptions()
+options.binary_location = "/usr/bin/chromium"
+options.add_experimental_option("prefs", {
+    "directory_upgrade": True,
+    "safebrowsing.enabled": True
+})
+options.add_argument("--headless")  # No GUI
+options.add_argument("--no-sandbox")  # Required in some hostings
+options.add_argument("--disable-dev-shm-usage")  # Helps with limited RAM
+options.add_argument("--disable-gpu")
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("--window-size=1920,1080")
+options.add_argument(
+    "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/122.0.0.0 Safari/537.36"
+)
+driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=options)
+    
+
 def whoAreYou(filePath, userID):      #check if user allowed to use bot
     with open(filePath, "r") as file:
         for line in file:
@@ -15,27 +35,9 @@ def whoAreYou(filePath, userID):      #check if user allowed to use bot
     return False
 
 def doAll(url):
-    options = webdriver.ChromeOptions()
-    options.binary_location = "/usr/bin/chromium"
-    options.add_experimental_option("prefs", {
-        "directory_upgrade": True,
-        "safebrowsing.enabled": True
-    })
-    options.add_argument("--headless")  # No GUI
-    options.add_argument("--no-sandbox")  # Required in some hostings
-    options.add_argument("--disable-dev-shm-usage")  # Helps with limited RAM
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("--window-size=1920,1080")
-    options.add_argument(
-        "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/122.0.0.0 Safari/537.36"
-    )
-    driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=options)
+    global driver
     loginSession = getCookie(driver)
     urlObject = getID(driver, url)
-    driver.quit()
     if (urlObject['pageFound']):
         objectID = urlObject['id']
         links = getLinks(loginSession, objectID)
@@ -49,7 +51,7 @@ users_file_path = 'users.txt'
 
 async def handlerLol(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if (whoAreYou(users_file_path, update.message.from_user.id)):
-        if ("https://www.storyblocks.com/video/stock" in update.message.text):
+        if ("https://www.storyblocks.com/video/stock" == update.message.text[:39]):
             await context.bot.send_message(update.message.chat.id, "Запрос получен. Ждите...")
             receivedText = update.message.text.strip()
             answer = doAll(receivedText)
