@@ -73,7 +73,7 @@ async def login(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if (receivedText.split()[1]==password):
         with open(users_file_path, "a") as file:
             file.write(str(update.message.from_user.id) + "\n")
-        await context.bot.send_message(update.message.chat.id, "Пароль правильный!")
+        await context.bot.send_message(update.message.chat.id, "Пароль правильный! Дайте ссылку на видео со StoryBlocks")
     else:
         await context.bot.send_message(update.message.chat.id, "Пароль неверный!")
 
