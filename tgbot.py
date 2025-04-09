@@ -60,7 +60,13 @@ async def handlerLol(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await context.bot.send_message(update.message.chat.id, "Неправильная ссылка")
     else:
-        await context.bot.send_message(update.message.chat.id, "Напишите пароль: /login <пароль>")
+        receivedText = update.message.text
+        if (receivedText==password):
+            with open(users_file_path, "a") as file:
+                file.write(str(update.message.from_user.id) + "\n")
+            await context.bot.send_message(update.message.chat.id, "Пароль правильный!")
+        else:
+            await context.bot.send_message(update.message.chat.id, "Напишите пароль")
 
 async def login(update: Update, context: ContextTypes.DEFAULT_TYPE):
     receivedText = update.message.text.strip()
@@ -74,7 +80,6 @@ async def login(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(token_api).build()
-    loginHandler = CommandHandler('login', login, filters=filters.ChatType.PRIVATE)
     handlerLolLol = MessageHandler(filters.ChatType.PRIVATE, handlerLol)
     application.add_handler(loginHandler)
     application.add_handler(handlerLolLol)
