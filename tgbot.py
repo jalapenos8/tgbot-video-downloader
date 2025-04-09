@@ -81,7 +81,6 @@ async def login(update: Update, context: ContextTypes.DEFAULT_TYPE):
 if __name__ == '__main__':
     application = ApplicationBuilder().token(token_api).build()
     handlerLolLol = MessageHandler(filters.ChatType.PRIVATE, handlerLol)
-    application.add_handler(loginHandler)
     application.add_handler(handlerLolLol)
     
     application.run_polling(poll_interval=1)
