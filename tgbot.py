@@ -20,7 +20,10 @@ def doAll(url):
         "directory_upgrade": True,
         "safebrowsing.enabled": True
     })
-    options.add_argument('--headless')  # Run in headless mode
+    options.add_argument("--headless")  # No GUI
+    options.add_argument("--no-sandbox")  # Required in some hostings
+    options.add_argument("--disable-dev-shm-usage")  # Helps with limited RAM
+    options.add_argument("--disable-gpu")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--window-size=1920,1080")
     options.add_argument(
@@ -64,23 +67,12 @@ async def handlerLol(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if (receivedText==password):
             with open(users_file_path, "a") as file:
                 file.write(str(update.message.from_user.id) + "\n")
-            await context.bot.send_message(update.message.chat.id, "Пароль правильный!")
+            await context.bot.send_message(update.message.chat.id, "Пароль правильный! Дайте ссылку на видео со StoryBlocks")
         else:
             await context.bot.send_message(update.message.chat.id, "Напишите пароль")
-
-async def login(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    receivedText = update.message.text.strip()
-    if (receivedText.split()[1]==password):
-        with open(users_file_path, "a") as file:
-            file.write(str(update.message.from_user.id) + "\n")
-        await context.bot.send_message(update.message.chat.id, "Пароль правильный! Дайте ссылку на видео со StoryBlocks")
-    else:
-        await context.bot.send_message(update.message.chat.id, "Пароль неверный!")
-
 
 if __name__ == '__main__':
     application = ApplicationBuilder().token(token_api).build()
     handlerLolLol = MessageHandler(filters.ChatType.PRIVATE, handlerLol)
     application.add_handler(handlerLolLol)
-    
     application.run_polling(poll_interval=1)
