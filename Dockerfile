@@ -1,12 +1,10 @@
 FROM python:3.11-slim
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y \
-    wget \
-    gnupg \
+RUN apt-get update
+RUN apt-get install -y \
     curl \
     unzip \
-    xvfb \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Chromium and ChromeDriver
@@ -30,9 +28,10 @@ COPY . .
 # Set environment variables for the browser paths
 ENV CHROMIUM_PATH=/usr/bin/chromium
 ENV CHROMEDRIVER_PATH=/usr/bin/chromedriver
+ENV PYTHONUNBUFFERED=1
 
 # Expose port for potential health checks (not used directly by the bot)
 EXPOSE 8080
 
 # Command to run the application
-CMD ["python", "tgbot.py"] 
+CMD ["python", "-u", "tgbot.py"] 

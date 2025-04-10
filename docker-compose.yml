@@ -14,9 +14,14 @@ services:
     volumes:
       - ./cookies.pkl:/app/cookies.pkl
       - ./users.txt:/app/users.txt
+      - ./cookies.json:/app/cookies.json
     develop:
       watch:
         - action: sync+restart
           path: ./
           target: /app
+          ignore: 
+            - cookies.pkl
+            - cookies.json
+            - users.txt
     restart: unless-stopped 
